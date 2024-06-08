@@ -40,6 +40,7 @@ function runScan(scanObj) {
     directory: config.program.folders[scanObj.vpath].root,
     vpath: scanObj.vpath,
     port: config.program.port,
+    address: config.program.address,
     token: jwt.sign({ scan: true }, config.program.secret),
     albumArtDirectory: config.program.storage.albumArtDirectory,
     skipImg: config.program.scanOptions.skipImg,

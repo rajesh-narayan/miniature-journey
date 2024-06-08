@@ -103,13 +103,13 @@ function bootServer() {
     },
     { label: 'Links', submenu: [
       {
-        label: `${protocol}://localhost:${program.port}`, click: () => {
-          shell.openExternal(protocol + '://localhost:' + program.port)
+        label: `${protocol}://${program.address}:${program.port}`, click: () => {
+          shell.openExternal(`${protocol}://${program.address}:${program.port}`)
         }
       },
       {
-        label: `${protocol}://localhost:${program.port}/admin`, click: () => {
-          shell.openExternal(`${protocol}://localhost:${program.port}/admin`)
+        label: `${protocol}://${program.address}:${program.port}/admin`, click: () => {
+          shell.openExternal(`${protocol}://${program.address}:${program.port}/admin`)
         }
       },
     ] },

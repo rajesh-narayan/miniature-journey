@@ -21,9 +21,9 @@ if (process.versions["electron"]) {
     |_| |_| |_|____/ \\__|_|  \\___|\\__,_|_| |_| |_|`);
   console.log(`v${program.version()}`);
   console.log();
-  console.log('Check out our Discord server:');
-  console.log('https://discord.gg/AM896Rr');
-  console.log();
+  // console.log('Check out our Discord server:');
+  // console.log('https://discord.gg/AM896Rr');
+  // console.log();
   
   // Boot the server
   require("./src/server").serveIt(program.opts().json);  

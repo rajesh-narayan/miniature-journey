@@ -24,6 +24,7 @@ const schema = Joi.object({
   vpath: Joi.string().required(),
   directory: Joi.string().required(),
   port: Joi.number().port().required(),
+  address: Joi.string().ip({ cidr: 'forbidden' }).required(),
   token: Joi.string().required(),
   pause: Joi.number().required(),
   skipImg: Joi.boolean().required(),
@@ -66,7 +67,7 @@ async function insertEntries(song) {
 
   await axios({
     method: 'POST',
-    url: `http${loadJson.isHttps === true ? 's': ''}://localhost:${loadJson.port}/api/v1/scanner/add-file`,
+    url: `http${loadJson.isHttps === true ? 's': ''}://${loadJson.address}:${loadJson.port}/api/v1/scanner/add-file`,
     headers: { 'accept': 'application/json', 'x-access-token': loadJson.token },
     responseType: 'json',
     data: data
@@ -80,7 +81,7 @@ async function run() {
 
     await axios({
       method: 'POST',
-      url: `http${loadJson.isHttps === true ? 's': ''}://localhost:${loadJson.port}/api/v1/scanner/finish-scan`,
+      url: `http${loadJson.isHttps === true ? 's': ''}://${loadJson.address}:${loadJson.port}/api/v1/scanner/finish-scan`,
       headers: { 'accept': 'application/json', 'x-access-token': loadJson.token },
       responseType: 'json',
       data: {
@@ -121,7 +122,7 @@ async function recursiveScan(dir) {
 
         const dbFileInfo = await axios({
           method: 'POST',
-          url: `http${loadJson.isHttps === true ? 's': ''}://localhost:${loadJson.port}/api/v1/scanner/get-file`,
+          url: `http${loadJson.isHttps === true ? 's': ''}://${loadJson.address}:${loadJson.port}/api/v1/scanner/get-file`,
           headers: { 'accept': 'application/json', 'x-access-token': loadJson.token },
           responseType: 'json',
           data: {

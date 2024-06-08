@@ -5,6 +5,7 @@ const path = require('path');
 const Joi = require('joi');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const morgan = require('morgan');
 
 require('./util/async-error');
 
@@ -31,6 +32,7 @@ let server;
 
 exports.serveIt = async configFile => {
   mstream = express();
+  mstream.use(morgan(':date[iso] :method :url :status :response-time ms - :res[content-length] bytes'));
 
   try {
     await config.setup(configFile);
@@ -182,7 +184,7 @@ exports.serveIt = async configFile => {
 
   // error handling
   mstream.use((error, req, res, next) => {
-    winston.error(`Server error on route ${req.originalUrl}`, { stack: error });
+    // winston.error(`Server error on route ${req.originalUrl}`, { stack: error });
 
     // Check for validation error
     if (error instanceof Joi.ValidationError) {
@@ -200,7 +202,7 @@ exports.serveIt = async configFile => {
   server.on('request', mstream);
   server.listen(config.program.port, config.program.address, () => {
     const protocol = config.program.ssl && config.program.ssl.cert && config.program.ssl.key ? 'https' : 'http';
-    winston.info(`Access mStream locally: ${protocol}://localhost:${config.program.port}`);
+    winston.info(`Access mStream locally: ${protocol}://${config.program.address}:${config.program.port}`);
 
     require('./db/task-queue').runAfterBoot();
   });
